@@ -3,6 +3,7 @@
 
 import asyncio
 import os
+import sys
 from pyrogram import Client, filters, idle
 from pytgcalls import PyTgCalls
 from config import API_ID, API_HASH, STRING_SESSION, DOWNLOADS_DIR, BOT_NAME
@@ -10,9 +11,27 @@ from utils.db import db
 from utils.stream import stream_manager
 
 
-# Downloads folder create karo
+# Downloads & Data folders create karo
 os.makedirs(DOWNLOADS_DIR, exist_ok=True)
 os.makedirs("data", exist_ok=True)
+
+# Required Environment Variables check karo
+if not API_ID or not API_HASH or not STRING_SESSION:
+    print("""
+=====================================================
+❌ ERROR: MISSING REQUIRED ENVIRONMENT VARIABLES!
+=====================================================
+Please provide the following environment variables:
+  1. API_ID         (from my.telegram.org)
+  2. API_HASH       (from my.telegram.org)
+  3. STRING_SESSION (Pyrogram string session)
+
+👉 If deploying on Railway / Heroku / Render:
+   Go to the 'Variables' (or 'Config Vars') tab
+   and add API_ID, API_HASH, and STRING_SESSION.
+=====================================================
+""")
+    sys.exit(1)
 
 
 # Pyrogram Client — Userbot mode (aapki ID se chalega)
